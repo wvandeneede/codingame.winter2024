@@ -1,9 +1,9 @@
 ﻿namespace codingame.winter2024.test;
 
-public class UnitTest1
+public class PointShould
 {
     [Fact]
-    public void Test1()
+    public void ConstructSuccesfully()
     {
         var p = new Point(0, 0);
 
