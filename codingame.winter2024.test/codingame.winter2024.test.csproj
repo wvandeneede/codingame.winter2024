@@ -18,4 +18,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\codingame.winter2024.game\codingame.winter2024.game.csproj" />
+  </ItemGroup>
+
 </Project>
