@@ -14,8 +14,10 @@ class Player
     {
         string[] inputs;
         inputs = Console.ReadLine().Split(' ');
-        int width = int.Parse(inputs[0]); // columns in the game grid
-        int height = int.Parse(inputs[1]); // rows in the game grid
+        var width = int.Parse(inputs[0]); // columns in the game grid
+        var height = int.Parse(inputs[1]); // rows in the game grid
+
+        var game = new Game(width, height);
 
         // game loop
         while (true)
@@ -32,7 +34,17 @@ class Player
                 string organDir = inputs[5]; // N,E,S,W or X if not an organ
                 int organParentId = int.Parse(inputs[6]);
                 int organRootId = int.Parse(inputs[7]);
+
+                if (type == "WALL")
+                {
+                    game.Grid[x, y].IsWall = true;
+                }
+                else if (type == "A" || type == "B" || type == "C" || type == "D")
+                {
+                    game.Grid[x, y].Protein = (ProteinType)Enum.Parse(typeof(ProteinType), type);
+                }
             }
+
             inputs = Console.ReadLine().Split(' ');
             int myA = int.Parse(inputs[0]);
             int myB = int.Parse(inputs[1]);
