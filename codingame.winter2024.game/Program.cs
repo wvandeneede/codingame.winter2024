@@ -46,7 +46,7 @@ class Player
                 else
                 {
                     var organType = (OrganType)Enum.Parse(typeof(OrganType), type);
-                    var direction = (Direction)Enum.Parse(typeof(Direction), type);
+                    var direction = (Direction)Enum.Parse(typeof(Direction), organDir);
                     var organ = new Organ(organId, new Point(x, y), organType, organRootId, direction, organParentId);
                     game.Grid[x, y].Protein = null;
                     game.Grid[x, y].Organ = organ;
