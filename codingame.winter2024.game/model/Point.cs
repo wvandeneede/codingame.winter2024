@@ -20,7 +20,7 @@ public class Point
             + Math.Abs((int)Vector.Y - (int)other.Vector.Y);
     }
 
-    public IEnumerable<Point> GetNeighbors()
+    public IEnumerable<Point> GetNeighbours()
     {
         yield return new Point(Vector.X - 1, Vector.Y);
         yield return new Point(Vector.X + 1, Vector.Y);
