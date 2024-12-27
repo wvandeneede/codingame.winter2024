@@ -11,8 +11,8 @@ public class GameShould
         {
             for (var x = 0; x < 10; x++)
             {
-                Assert.Equal(x, game.Grid[x, y].Position.X);
-                Assert.Equal(y, game.Grid[x, y].Position.Y);
+                Assert.Equal(x, game.Grid[x, y].Position.Vector.X);
+                Assert.Equal(y, game.Grid[x, y].Position.Vector.Y);
             }
         }
     }
