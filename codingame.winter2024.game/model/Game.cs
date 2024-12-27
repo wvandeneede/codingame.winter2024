@@ -15,5 +15,8 @@ public class Game
                 this.Grid[x, y] = new Cell(new Point(x, y), false, null, null);
             }
         }
+
+        this.MyProteins = [];
+        this.OppProteins = [];
     }
 }
