@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+      "ms-dotnettools.csdevkit",
+      "ms-dotnettools.vscodeintellicode-csharp",
+      "EditorConfig.EditorConfig",
+      "Fabrica.vscode-codingame"
+    ]
+}
