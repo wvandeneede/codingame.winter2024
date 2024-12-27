@@ -11,14 +11,33 @@ public class PointShould
         Assert.Equal(0, p.Vector.Y);
     }
 
+    [Theory]
+    [InlineData(0, 0, 0, 0, 0)]
+    [InlineData(0, 0, 1, 1, 2)]
+    [InlineData(0, 0, 1, 0, 1)]
+    [InlineData(0, 0, 0, 1, 1)]
+    [InlineData(0, 0, 4, 4, 8)]
+    public void ReturnDistanceTo(int p1x, int p1y, int p2x, int p2y, int distance)
+    {
+        var p = new Point(p1x, p1y);
+        var p2 = new Point(p2x, p2y);
+
+        Assert.Equal(distance, p.DistanceTo(p2));
+    }
+
     [Fact]
-    public void ReturnDistanceTo()
+    public void BeValidWithinGridBounds()
     {
         var p = new Point(0, 0);
-        var p2 = new Point(4, 4);
 
-        var distance = p.DistanceTo(p2);
+        Assert.True(p.IsValid(10, 10));
+    }
 
-        Assert.Equal(8, distance);
+    [Fact]
+    public void BeInvalidOutsideGridBounds()
+    {
+        var p = new Point(11, 11);
+
+        Assert.False(p.IsValid(10, 10));
     }
 }
