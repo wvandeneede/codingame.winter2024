@@ -1,4 +1,7 @@
-﻿class Player
+﻿using System;
+using System.Collections.Generic;
+
+class Player
 {
     static void Main(string[] args)
     {
@@ -8,6 +11,7 @@
         var height = int.Parse(inputs[1]); // rows in the game grid
 
         var game = new Game(width, height);
+        var planner = new ActionPlanner();
 
         // game loop
         while (true)
@@ -43,25 +47,28 @@
                 }
             }
 
-
             inputs = Console.ReadLine().Split(' ');
-            int myA = int.Parse(inputs[0]);
-            int myB = int.Parse(inputs[1]);
-            int myC = int.Parse(inputs[2]);
-            int myD = int.Parse(inputs[3]); // your protein stock
+            game.MyProteins = new Dictionary<ProteinType, int>
+            {
+                { ProteinType.A, int.Parse(inputs[0]) },
+                { ProteinType.B, int.Parse(inputs[1]) },
+                { ProteinType.C, int.Parse(inputs[2]) },
+                { ProteinType.D, int.Parse(inputs[3]) }
+            };
+
+            game.UpdateProteins();
+
             inputs = Console.ReadLine().Split(' ');
             int oppA = int.Parse(inputs[0]);
             int oppB = int.Parse(inputs[1]);
             int oppC = int.Parse(inputs[2]);
             int oppD = int.Parse(inputs[3]); // opponent's protein stock
+
             int requiredActionsCount = int.Parse(Console.ReadLine()); // your number of organisms, output an action for each one in any order
             for (int i = 0; i < requiredActionsCount; i++)
             {
-
-                // Write an action using Console.WriteLine()
-                // To debug: Console.Error.WriteLine("Debug messages...");
-
-                Console.WriteLine("WAIT");
+                var action = planner.PlanAction(game);
+                action?.Execute();
             }
         }
     }

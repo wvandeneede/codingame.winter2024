@@ -15,4 +15,9 @@ public class Cell
         Organ = organ;
         Harvesting = false;
     }
+
+    public override string ToString()
+    {
+        return $"cell_{Position}_{IsWall}_{Protein}_{Organ}";
+    }
 }
