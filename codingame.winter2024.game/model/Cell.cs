@@ -4,6 +4,7 @@ public class Cell
     public bool IsWall { get; set; }
     public ProteinType? Protein { get; set; }
     public Organ? Organ { get; set; }
+    public int Owner { get; set; }
     public bool Harvesting { get; set; }
 
     public Cell(Point? position, bool isWall, ProteinType? protein, Organ? organ)

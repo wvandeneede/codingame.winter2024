@@ -29,7 +29,7 @@ class Player
                 int x = int.Parse(inputs[0]);
                 int y = int.Parse(inputs[1]); // grid coordinate
                 string type = inputs[2]; // WALL, ROOT, BASIC, TENTACLE, HARVESTER, SPORER, A, B, C, D
-                int owner = int.Parse(inputs[3]); // 1 if your organ, 0 if enemy organ, -1 if neither
+                game.Grid[x, y].Owner = int.Parse(inputs[3]); // 1 if your organ, 0 if enemy organ, -1 if neither
                 int organId = int.Parse(inputs[4]); // id of this entity if it's an organ, 0 otherwise
                 string organDir = inputs[5]; // N,E,S,W or X if not an organ
                 int organParentId = int.Parse(inputs[6]);
@@ -43,7 +43,16 @@ class Player
                 {
                     game.Grid[x, y].Protein = (ProteinType)Enum.Parse(typeof(ProteinType), type);
                 }
+                else
+                {
+                    var organType = (OrganType)Enum.Parse(typeof(OrganType), type);
+                    var direction = (Direction)Enum.Parse(typeof(Direction), type);
+                    var organ = new Organ(organId, new Point(x, y), organType, organRootId, direction, organParentId);
+                    game.Grid[x, y].Protein = null;
+                    game.Grid[x, y].Organ = organ;
+                }
             }
+
 
             inputs = Console.ReadLine().Split(' ');
             int myA = int.Parse(inputs[0]);

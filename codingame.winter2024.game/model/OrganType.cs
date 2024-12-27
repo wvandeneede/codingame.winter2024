@@ -1,5 +1,6 @@
 public enum OrganType
 {
     ROOT,
-    BASIC
+    BASIC,
+    HARVESTER
 }

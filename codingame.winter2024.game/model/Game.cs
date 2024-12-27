@@ -3,9 +3,6 @@ public class Game
     public Cell[,] Grid { get; init; }
     public Dictionary<ProteinType, int> MyProteins { get; set; }
     public Dictionary<ProteinType, int> OppProteins { get; set; }
-    public Organ[] MyOrgans { get; set; }
-    public Organ[] OppOrgans { get; set; }
-    public Dictionary<int, Organ> OrganMap { get; set; }
 
     public Game(int width, int height)
     {
