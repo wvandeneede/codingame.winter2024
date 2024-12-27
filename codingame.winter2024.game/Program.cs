@@ -1,14 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-
-/**
- * Grow and multiply your organisms to end up larger than your opponent.
- **/
-class Player
+﻿class Player
 {
     static void Main(string[] args)
     {
