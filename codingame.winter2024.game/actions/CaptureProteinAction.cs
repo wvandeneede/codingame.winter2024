@@ -1,26 +1,27 @@
 using System;
 using System.Linq;
 
-public class GrowRandomlyAction : Action
+public class CaptureProteinAction : Action
 {
     private Cell cell;
     private Point? target;
 
-    public GrowRandomlyAction(Game state) : base(state) { }
+    public CaptureProteinAction(Game state) : base(state) { }
 
     public override double EvaluateScore(Cell forCell)
     {
-        if (forCell.Organ == null) return -1;
-        if (State.MyProteins[ProteinType.A] == 0) return -1;
+        var adjacentProteins = State.ProteinSourcePositions
+            .Where(p => p.GetNeighbours().Contains(forCell.Position))
+            .ToList();
 
-        var neighbours = forCell.Position.GetNeighbours().Where(State.IsValidTile).ToList();
-        if (!neighbours.Any()) return -1;
+        if (!adjacentProteins.Any()) return -1;
 
-        var random = new Random();
         cell = forCell;
-        target = neighbours[random.Next(neighbours.Count())];
+        target = adjacentProteins.First();
 
-        return 0.3; // Low priority
+        return State.ProteinsBeingHarvested.Contains(target)
+            ? 0.1
+            : 0.2;
     }
 
     public override void Execute()

@@ -12,6 +12,9 @@ public class Game
     public List<Point?> WallPositions => Grid.Cast<Cell>().Where(x => x.IsWall).Select(x => x.Position).ToList();
     public List<Point?> OccupiedPositions => Grid.Cast<Cell>().Where(x => x.Organ != null).Select(x => x.Position).ToList();
     public List<Cell> MyCells => Grid.Cast<Cell>().Where(x => x.Owner == 1 && x.Organ != null).ToList();
+    public List<Cell> OpponentCells => Grid.Cast<Cell>().Where(x => x.Owner == 0 && x.Organ != null).ToList();
+
+    public List<Point> myTentaclePositions => MyCells.Where(x => x.Organ.Type == OrganType.TENTACLE).Select(x=>x.Position).ToList();
 
 
     public List<Point> ProteinSourcePositions => Grid.Cast<Cell>().Where(x => x.Protein != null).Select(x => x.Position).ToList();
