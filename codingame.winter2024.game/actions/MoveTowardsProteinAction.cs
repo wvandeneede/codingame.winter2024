@@ -14,6 +14,7 @@ public class MoveTowardsProteinAction : Action
     public override double EvaluateScore(Cell entity)
     {
         if (entity.Organ == null) return -1;
+        if (State.MyProteins[ProteinType.A] < 1) return -1;
 
         var targets = State.ProteinSourcePositions
             .Where(p => !State.OccupiedPositions.Contains(p)

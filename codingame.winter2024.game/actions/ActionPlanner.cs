@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ActionPlanner
 {
-    public Action PlanAction(Game state)
+    public Action PlanAction(Game state, Cell rootCell)
     {
         var actions = new List<Action>
         {
@@ -15,7 +16,7 @@ public class ActionPlanner
         Action bestAction = null;
         double bestScore = double.MinValue;
 
-        foreach (var cell in state.MyCells)
+        foreach (var cell in state.MyCells.Where(cell => cell.Organ?.RootId == rootCell.Organ?.Id))
         {
             foreach (var a in actions)
             {

@@ -65,9 +65,10 @@ class Player
             int oppD = int.Parse(inputs[3]); // opponent's protein stock
 
             int requiredActionsCount = int.Parse(Console.ReadLine()); // your number of organisms, output an action for each one in any order
-            for (int i = 0; i < requiredActionsCount; i++)
+
+            foreach (var rootCell in game.MyRoots)
             {
-                var action = planner.PlanAction(game);
+                var action = planner.PlanAction(game, rootCell);
                 action?.Execute();
             }
         }

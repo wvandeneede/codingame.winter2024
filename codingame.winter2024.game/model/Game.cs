@@ -16,6 +16,8 @@ public class Game
 
     public List<Point> ProteinSourcePositions => Grid.Cast<Cell>().Where(x => x.Protein != null).Select(x => x.Position).ToList();
 
+    public List<Cell> MyRoots => MyCells.Cast<Cell>().Where(x => x.Organ?.Type == OrganType.ROOT).ToList();
+
     public HashSet<Point> ProteinsBeingHarvested { get; private set; }
 
     public Game(int width, int height)
