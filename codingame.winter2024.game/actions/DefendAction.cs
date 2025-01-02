@@ -17,16 +17,16 @@ class DefendAction : PlaceAdjacentAction
 
     protected override IEnumerable<TargetData> GetTargets(Cell forCell)
     {
-        if(State.myTentaclePositions.Count > 0) return [];
+        if (State.myTentaclePositions.Count > 0) return [];
 
         return State.OpponentCells
             .Where(organs => organs.Position.GetNeighbours().Any(n => State.IsValidTile(n)))
             .SelectMany(organs => organs.Position.GetNeighbours()
                 .Where(neighbour => State.IsValidTile(neighbour))
                 .Select(neighbour => new TargetData
-                { 
+                {
                     Origin = forCell.Position,
-                    Target = organs.Position, 
+                    Target = organs.Position,
                     Position = neighbour,
                     Distance = forCell.Position.DistanceTo(neighbour),
                     Direction = GetClosestDirections(organs.Position.Vector - neighbour.Vector)
@@ -49,9 +49,9 @@ class DefendAction : PlaceAdjacentAction
         int targetX = (int)targetPos.X;
         int targetY = (int)targetPos.Y;
 
-        if (targetX >= 0 
-            && targetX < State.Width 
-            && targetY >= 0 
+        if (targetX >= 0
+            && targetX < State.Width
+            && targetY >= 0
             && targetY < State.Height)
         {
             return State.OccupiedPositions.Contains(new Point(targetX, targetY));
@@ -62,8 +62,13 @@ class DefendAction : PlaceAdjacentAction
 
     protected override double GetScore(TargetData data)
     {
-        return data.Distance <= 2 
+        return data.Distance <= 2
             ? 150
             : 0.1;
+    }
+
+    protected override bool ValidateCost()
+    {
+        return this.State.MyProteins[ProteinType.B] >= 1 && this.State.MyProteins[ProteinType.C] >= 1;
     }
 }

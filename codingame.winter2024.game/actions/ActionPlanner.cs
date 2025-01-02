@@ -8,6 +8,7 @@ public class ActionPlanner
     {
         var actions = new List<Action>
         {
+            new GrowSporerAction(state),
             new DefendAction(state),
             new HarvestProteinAction(state),
             new CaptureProteinAction(state),

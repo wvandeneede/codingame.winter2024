@@ -1,21 +1,24 @@
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class HarvestProteinAction : PlaceAdjacentAction
+class GrowSporerAction : PlaceAdjacentAction
 {
-    public HarvestProteinAction(Game state) : base(state) { }
+    public GrowSporerAction(Game state) : base(state) { }
 
     public override void Execute()
     {
         if (cell != null && position != null && direction != null)
         {
-            Console.WriteLine($"GROW {cell.Organ.Id} {position.Vector.X} {position.Vector.Y} HARVESTER {direction}");
+            Console.WriteLine($"GROW {cell.Organ.Id} {position.Vector.X} {position.Vector.Y} SPORER {direction}");
         }
     }
 
     protected override IEnumerable<TargetData> GetTargets(Cell forCell)
     {
+        if (forCell.Organ?.Type == OrganType.SPORER) return [];
+
         return State.ProteinSourcePositions
             .Where(protein => protein.GetNeighbours().Any(n => State.IsValidTile(n)))
             .SelectMany(protein => protein.GetNeighbours()
@@ -28,16 +31,16 @@ class HarvestProteinAction : PlaceAdjacentAction
                     Distance = forCell.Position.DistanceTo(neighbour),
                     Direction = GetDirection(protein.Vector - neighbour.Vector),
                 }))
-                .Where(t => t.Distance == 1 && !State.ProteinsBeingHarvested.Contains(t.Target));
+                .Where(t => t.Distance > 3 && t.Distance < State.Width && !State.ProteinsBeingHarvested.Contains(t.Target));
     }
 
     protected override double GetScore(TargetData data)
     {
-        return 101;
+        return 61;
     }
 
     protected override bool ValidateCost()
     {
-        return this.State.MyProteins[ProteinType.C] >= 1 && this.State.MyProteins[ProteinType.D] >= 1;
+        return State.MyProteins[ProteinType.B] >= 1 && State.MyProteins[ProteinType.D] >= 1;
     }
 }

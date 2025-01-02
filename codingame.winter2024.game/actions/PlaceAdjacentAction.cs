@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Numerics;
 
 abstract class PlaceAdjacentAction : Action
 {
-    protected Cell cell;    
+    protected Cell cell;
     protected Point? target;
     protected Point? position;
     protected Direction direction;
@@ -18,20 +20,23 @@ abstract class PlaceAdjacentAction : Action
         { Direction.E, new Vector2(1, 0) },  // Right
     };
 
-    public PlaceAdjacentAction(Game state) : base(state) 
+    public PlaceAdjacentAction(Game state) : base(state)
     {
         directionVectorsToKeys = directionKeysToVectors.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
     }
 
     public override double EvaluateScore(Cell forCell)
     {
+        if (!ValidateCost()) return -1;
+
         var targets = GetTargets(forCell);
+
         if (!targets.Any())
         {
             return -1;
         }
 
-        var bestTarget = targets.First();        
+        var bestTarget = targets.First();
         cell = forCell;
         position = bestTarget.Position;
         target = bestTarget.Target;
@@ -41,6 +46,7 @@ abstract class PlaceAdjacentAction : Action
     }
 
     protected abstract IEnumerable<TargetData> GetTargets(Cell cell);
+    protected abstract bool ValidateCost();
 
     protected virtual double GetScore(TargetData data)
     {
@@ -64,7 +70,7 @@ abstract class PlaceAdjacentAction : Action
         foreach (var direction in directionVectorsToKeys)
         {
             float dotProduct = Vector2.Dot(tentacleDir, direction.Key);
-            
+
             // Check for the closest direction(s)
             if (dotProduct > maxDot)
             {

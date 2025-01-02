@@ -11,20 +11,20 @@ public class MoveTowardsProteinAction : Action
 
     public MoveTowardsProteinAction(Game state) : base(state) { }
 
-    public override double EvaluateScore(Cell entity)
+    public override double EvaluateScore(Cell forCell)
     {
-        if (entity.Organ == null) return -1;
+        if (forCell.Organ == null) return -1;
         if (State.MyProteins[ProteinType.A] < 1) return -1;
 
         var targets = State.ProteinSourcePositions
             .Where(p => !State.OccupiedPositions.Contains(p)
                 && !State.ProteinsBeingHarvested.Contains(p)
-                && entity.Position.DistanceTo(p) > 1)
+                && forCell.Position.DistanceTo(p) > 1)
             .Select(p => new
             {
                 Location = p,
-                Distance = entity.Position.DistanceTo(p),
-                Path = GetPath(entity.Position, p),
+                Distance = forCell.Position.DistanceTo(p),
+                Path = GetPath(forCell.Position, p),
             })
             .Where(x => x.Path != null);
 
@@ -34,7 +34,7 @@ public class MoveTowardsProteinAction : Action
             .OrderBy(t => t.Path.score)
             .First();
 
-        cell = entity;
+        cell = forCell;
         target = closest.Location;
         path = closest.Path.path;
 
