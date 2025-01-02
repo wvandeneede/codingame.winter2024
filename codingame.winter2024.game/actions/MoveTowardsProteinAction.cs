@@ -15,7 +15,6 @@ public class MoveTowardsProteinAction : Action
     {
         if (entity.Organ == null) return -1;
         if (State.MyProteins[ProteinType.A] < 1) return -1;
-        if (State.MyProteins[ProteinType.A] == 0) return -1;
 
         var targets = State.ProteinSourcePositions
             .Where(p => !State.OccupiedPositions.Contains(p)
