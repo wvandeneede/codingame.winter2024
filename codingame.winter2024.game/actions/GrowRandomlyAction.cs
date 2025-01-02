@@ -11,6 +11,8 @@ public class GrowRandomlyAction : Action
     public override double EvaluateScore(Cell forCell)
     {
         if (State.MyProteins[ProteinType.A] < 1) return -1;
+        if (forCell.Organ == null) return -1;
+        if (State.MyProteins[ProteinType.A] == 0) return -1;
 
         var neighbours = forCell.Position.GetNeighbours().Where(State.IsValidTile).ToList();
         if (!neighbours.Any()) return -1;

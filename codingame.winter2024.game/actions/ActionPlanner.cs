@@ -8,6 +8,9 @@ public class ActionPlanner
     {
         var actions = new List<Action>
         {
+            new DefendAction(state),
+            new HarvestProteinAction(state),
+            new CaptureProteinAction(state),
             new MoveTowardsProteinAction(state),
             new GrowRandomlyAction(state),
             new DoNothingAction(state)
