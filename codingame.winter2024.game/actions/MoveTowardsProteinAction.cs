@@ -14,7 +14,7 @@ public class MoveTowardsProteinAction : Action
     public override double EvaluateScore(Cell forCell)
     {
         if (forCell.Organ == null) return -1;
-        if (State.MyProteins[ProteinType.A] < 1) return -1;
+        if (!EvaluateCost()) return -1;
 
         var targets = State.ProteinSourcePositions
             .Where(p => !State.OccupiedPositions.Contains(p)
@@ -66,5 +66,15 @@ public class MoveTowardsProteinAction : Action
     public override string ToString()
     {
         return $"{base.ToString()} {cell} > {target} | [{string.Join(", ", path)}]";
+    }
+
+    public override Dictionary<ProteinType, int> Cost()
+    {
+        return new Dictionary<ProteinType, int>() {
+            {ProteinType.A, 1},
+            {ProteinType.B, 0},
+            {ProteinType.C, 0},
+            {ProteinType.D, 0}
+        };
     }
 }

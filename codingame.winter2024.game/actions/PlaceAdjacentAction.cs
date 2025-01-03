@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Numerics;
 
@@ -27,7 +25,7 @@ abstract class PlaceAdjacentAction : Action
 
     public override double EvaluateScore(Cell forCell)
     {
-        if (!ValidateCost()) return -1;
+        if (!EvaluateCost()) return -1;
 
         var targets = GetTargets(forCell);
 
@@ -46,7 +44,6 @@ abstract class PlaceAdjacentAction : Action
     }
 
     protected abstract IEnumerable<TargetData> GetTargets(Cell cell);
-    protected abstract bool ValidateCost();
 
     protected virtual double GetScore(TargetData data)
     {

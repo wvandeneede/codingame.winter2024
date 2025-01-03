@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class CaptureProteinAction : Action
@@ -8,8 +9,20 @@ public class CaptureProteinAction : Action
 
     public CaptureProteinAction(Game state) : base(state) { }
 
+    public override Dictionary<ProteinType, int> Cost()
+    {
+        return new Dictionary<ProteinType, int>() {
+            {ProteinType.A, 1},
+            {ProteinType.B, 0},
+            {ProteinType.C, 0},
+            {ProteinType.D, 0}
+        };
+    }
+
     public override double EvaluateScore(Cell forCell)
     {
+        if (!EvaluateCost()) return -1;
+
         var adjacentProteins = State.ProteinSourcePositions
             .Where(p => p.GetNeighbours().Contains(forCell.Position))
             .ToList();

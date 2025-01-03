@@ -36,8 +36,13 @@ class HarvestProteinAction : PlaceAdjacentAction
         return 101;
     }
 
-    protected override bool ValidateCost()
+    public override Dictionary<ProteinType, int> Cost()
     {
-        return this.State.MyProteins[ProteinType.C] >= 1 && this.State.MyProteins[ProteinType.D] >= 1;
+        return new Dictionary<ProteinType, int>() {
+            {ProteinType.A, 0},
+            {ProteinType.B, 0},
+            {ProteinType.C, 1},
+            {ProteinType.D, 1}
+        };
     }
 }

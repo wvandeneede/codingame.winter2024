@@ -17,7 +17,10 @@ class GrowSporerAction : PlaceAdjacentAction
 
     protected override IEnumerable<TargetData> GetTargets(Cell forCell)
     {
-        if (forCell.Organ?.Type == OrganType.SPORER) return [];
+        var allCellsForRoot = State.MyCells.Where(cell => cell.Organ?.RootId == forCell.Organ?.RootId);
+        var sporers = allCellsForRoot.Where(cell => cell.Organ?.Type == OrganType.SPORER);
+
+        if (sporers.Count() > 0) return [];
 
         return State.ProteinSourcePositions
             .Where(protein => protein.GetNeighbours().Any(n => State.IsValidTile(n)))
@@ -39,8 +42,13 @@ class GrowSporerAction : PlaceAdjacentAction
         return 61;
     }
 
-    protected override bool ValidateCost()
+    public override Dictionary<ProteinType, int> Cost()
     {
-        return State.MyProteins[ProteinType.B] >= 1 && State.MyProteins[ProteinType.D] >= 1;
+        return new Dictionary<ProteinType, int>() {
+            {ProteinType.A, 0},
+            {ProteinType.B, 1},
+            {ProteinType.C, 0},
+            {ProteinType.D, 1}
+        };
     }
 }
