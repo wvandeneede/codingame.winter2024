@@ -4,10 +4,11 @@ using System.Linq;
 
 public class ActionPlanner
 {
-    public Action PlanAction(Game state, Cell rootCell)
+    public Action PlanAction(Game state, Cell rootCell, int maxEval)
     {
         var actions = new List<Action>
         {
+            new SporeAction(state),
             new GrowSporerAction(state),
             new DefendAction(state),
             new HarvestProteinAction(state),
@@ -20,7 +21,12 @@ public class ActionPlanner
         Action bestAction = null;
         double bestScore = double.MinValue;
 
-        foreach (var cell in state.MyCells.Where(cell => cell.Organ?.RootId == rootCell.Organ?.Id))
+        var cellsToBeEvaluated = state.MyCells.Where(cell => cell.Organ?.RootId == rootCell.Organ?.Id)
+        .OrderByDescending(cell => cell.Position.DistanceTo(rootCell.Position))
+        .Take(maxEval)
+        .ToList();
+
+        foreach (var cell in cellsToBeEvaluated)
         {
             foreach (var a in actions)
             {
@@ -37,6 +43,8 @@ public class ActionPlanner
                     bestAction = action;
                     bestScore = score;
                 }
+
+                if (score > 50) break;
             }
         }
 

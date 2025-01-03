@@ -20,6 +20,8 @@ public class MoveTowardsProteinAction : Action
             .Where(p => !State.OccupiedPositions.Contains(p)
                 && !State.ProteinsBeingHarvested.Contains(p)
                 && forCell.Position.DistanceTo(p) > 1)
+            .OrderBy(p => forCell.Position.DistanceTo(p))
+            .Take(3)
             .Select(p => new
             {
                 Location = p,

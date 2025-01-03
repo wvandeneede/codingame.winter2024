@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-abstract class PlaceAdjacentAction : Action
+public abstract class PlaceAdjacentAction : Action
 {
     protected Cell cell;
     protected Point? target;

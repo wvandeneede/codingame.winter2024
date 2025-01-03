@@ -66,10 +66,12 @@ class Player
 
             int requiredActionsCount = int.Parse(Console.ReadLine()); // your number of organisms, output an action for each one in any order
 
+            var maxEval = 3;
             foreach (var rootCell in game.MyRoots)
             {
-                var action = planner.PlanAction(game, rootCell);
+                var action = planner.PlanAction(game, rootCell, maxEval);
                 action?.Execute();
+                if (maxEval > 1) maxEval--;
             }
         }
     }

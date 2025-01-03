@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class GrowSporerAction : PlaceAdjacentAction
+public class GrowSporerAction : PlaceAdjacentAction
 {
     public GrowSporerAction(Game state) : base(state) { }
 
@@ -24,17 +24,19 @@ class GrowSporerAction : PlaceAdjacentAction
 
         return State.ProteinSourcePositions
             .Where(protein => protein.GetNeighbours().Any(n => State.IsValidTile(n)))
+            .SelectMany(protein => protein.GetNeighbours())
             .SelectMany(protein => protein.GetNeighbours()
                 .Where(neighbour => State.IsValidTile(neighbour))
+                .Where(target => State.IsValidTile(target) && (target.Vector.X == forCell.Position.Vector.X || target.Vector.Y == forCell.Position.Vector.Y))
                 .Select(neighbour => new TargetData
                 {
                     Origin = forCell.Position,
                     Target = protein,
                     Position = neighbour,
                     Distance = forCell.Position.DistanceTo(neighbour),
-                    Direction = GetDirection(protein.Vector - neighbour.Vector),
+                    Direction = GetDirection(neighbour.Vector - protein.Vector),
                 }))
-                .Where(t => t.Distance > 3 && t.Distance < State.Width && !State.ProteinsBeingHarvested.Contains(t.Target));
+                .Where(t => t.Distance > 8 && t.Distance < State.Width && !State.ProteinsBeingHarvested.Contains(t.Target));
     }
 
     protected override double GetScore(TargetData data)
